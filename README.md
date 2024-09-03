@@ -20,17 +20,17 @@
 
 ## 代码展示
 
-''' java
+```java
 public class CodeGenerator {
     private static final String projectPath = System.getProperty("user.dir");
-    private static final String url = "jdbc:mysql://localhost:3306/your_database?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
+    private static final String url = "jdbc:mysql://114.55.146.84:3306/my_blog?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
     private static final String username = "root";
-    private static final String password = "your_password";
+    private static final String password = "jio;90-=_";
     private static final String parentPackageName = "com.zzy";
     private static final String author = "zzy";
     private static final String outPath = projectPath + "/src/main/java/";
     private static final String mapperPath = projectPath + "/src/main/java/com/zzy/mapper/xml/";
-    
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter the database table names (separated by commas for multiple table names):");
@@ -46,14 +46,15 @@ public class CodeGenerator {
         String[] tableNames = tablesInput.split(",");
         execute(tableNames, prefix);
     }
-    
+
+
     public static void execute(String[] tableNames, String prefix) {
         FastAutoGenerator.create(url, username, password)
                 .globalConfig(builder -> builder.author(author).outputDir(outPath).disableOpenDir())
                 .packageConfig(builder -> builder.parent(parentPackageName).pathInfo(Collections.singletonMap(OutputFile.xml, mapperPath)))
                 .strategyConfig(builder -> {
                     builder.addInclude(tableNames)
-                            .addTablePrefix(prefix) 
+                            .addTablePrefix(prefix) // 添加表名前缀
                             .serviceBuilder().formatServiceFileName("%sService").formatServiceImplFileName("%sServiceImpl")
                             .entityBuilder()
                             .enableChainModel()
@@ -70,4 +71,6 @@ public class CodeGenerator {
     }
 
 }
-'''
+```
+
+
