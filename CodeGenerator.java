@@ -18,6 +18,13 @@ import java.util.Scanner;
 
 public class CodeGenerator {
 
+    // Database configuration variables
+    static String databaseHost = "localhost";
+    static String databasePort = "3306";
+    static String databaseName = "your_database";
+    static String databaseUser = "root";
+    static String databasePassword = "your_password";
+
     public static void main(String[] args) {
         new AutoGenerator()
                 .setGlobalConfig(globalConfig())
@@ -41,11 +48,12 @@ public class CodeGenerator {
     }
 
     private static DataSourceConfig dsc() {
+
         return new DataSourceConfig()
-                .setUrl("jdbc:mysql://localhost:3306/my_blog?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC")
+                .setUrl(String.format("jdbc:mysql://%s:%s/%s?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC", databaseHost, databasePort, databaseName))
                 .setDriverName("com.mysql.cj.jdbc.Driver")
-                .setUsername("root")
-                .setPassword("your_password");
+                .setUsername(databaseUser)
+                .setPassword(databasePassword);
     }
 
     private static PackageConfig packageConfig() {
@@ -67,7 +75,7 @@ public class CodeGenerator {
                 .setRestControllerStyle(true)
                 .setLogicDeleteFieldName("deleted")
                 .setVersionFieldName("version")
-                .setInclude(scanner("Table names (comma-separated):").split(","))
+                .setInclude(scanner("Table names (comma-separated)").split(","))
                 .setTableFillList(Arrays.asList(
                         new TableFill("create_time", FieldFill.INSERT),
                         new TableFill("update_time", FieldFill.INSERT_UPDATE)
@@ -76,7 +84,7 @@ public class CodeGenerator {
 
     public static String scanner(String tip) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter" + tip + ":");
+        System.out.println("Enter " + tip + ":");
 
         return Optional.ofNullable(scanner.next())
                 .filter(ipt -> !ipt.trim().isEmpty())
