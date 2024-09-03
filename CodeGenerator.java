@@ -18,11 +18,11 @@ import java.util.Scanner;
 public class CodeGenerator {
 
     // Database configuration variables
-    private static final String DB_HOST = "114.55.146.84";
+    private static final String DB_HOST = "localhost";
     private static final String DB_PORT = "3306";
-    private static final String DB_NAME = "my_blog";
+    private static final String DB_NAME = "your_database";
     private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "jio;90-=_";
+    private static final String DB_PASSWORD = "your_password";
 
     public static void main(String[] args) {
         new AutoGenerator()
