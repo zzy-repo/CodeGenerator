@@ -13,5 +13,6 @@
 > 注意：由于最新版的 MyBatis-Plus Generator 存在兼容性问题，因此本项目采用了 3.3.0 版本的代码生成器。另外，自 MyBatis-Plus 3.0.3 版本起，代码生成器与模板引擎的默认依赖已被移除，需要手动添加相关依赖。在此，我们选择了 Velocity 作为模板引擎。
 ## 效果展示
 以下是代码生成器运行后的效果展示：
+
 ![image-20240903151702726](https://gitee.com/zzy2401/picbed/raw/master/images/image-20240903151702726.png)
 ![image-20240903151646193](https://gitee.com/zzy2401/picbed/raw/master/images/image-20240903151646193.png)
