@@ -67,7 +67,7 @@ public class CodeGenerator {
                 .setRestControllerStyle(true)
                 .setLogicDeleteFieldName("deleted")
                 .setVersionFieldName("version")
-                .setInclude(scanner("表名(多个英文逗号分割)").split(","))
+                .setInclude(scanner("Table names (comma-separated):").split(","))
                 .setTableFillList(Arrays.asList(
                         new TableFill("create_time", FieldFill.INSERT),
                         new TableFill("update_time", FieldFill.INSERT_UPDATE)
@@ -76,10 +76,10 @@ public class CodeGenerator {
 
     public static String scanner(String tip) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("请输入" + tip + "：");
+        System.out.println("Enter" + tip + ":");
 
         return Optional.ofNullable(scanner.next())
                 .filter(ipt -> !ipt.trim().isEmpty())
-                .orElseThrow(() -> new MybatisPlusException("请输入正确的" + tip + "！"));
+                .orElseThrow(() -> new MybatisPlusException("Enter valid " + tip + "!"));
     }
 }
