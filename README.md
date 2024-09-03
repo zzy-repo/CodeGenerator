@@ -29,7 +29,7 @@ public class CodeGenerator {
     private static final String author = "zzy";
     private static final String outPath = projectPath + "/src/main/java/";
     private static final String mapperPath = projectPath + "/src/main/java/com/zzy/mapper/xml/";
-
+    
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter the database table names (separated by commas for multiple table names):");
@@ -45,8 +45,7 @@ public class CodeGenerator {
         String[] tableNames = tablesInput.split(",");
         execute(tableNames, prefix);
     }
-
-
+    
     public static void execute(String[] tableNames, String prefix) {
         FastAutoGenerator.create(url, username, password)
                 .globalConfig(builder -> builder.author(author).outputDir(outPath).disableOpenDir())
