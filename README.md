@@ -19,7 +19,8 @@
 
 
 ## 代码展示
-'''java
+
+''' java
 public class CodeGenerator {
     private static final String projectPath = System.getProperty("user.dir");
     private static final String url = "jdbc:mysql://localhost:3306/your_database?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
