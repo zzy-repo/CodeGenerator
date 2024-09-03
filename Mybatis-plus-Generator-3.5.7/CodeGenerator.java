@@ -10,9 +10,9 @@ import java.util.Scanner;
 
 public class CodeGenerator {
     private static final String projectPath = System.getProperty("user.dir");
-    private static final String url = "jdbc:mysql://114.55.146.84:3306/my_blog?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
+    private static final String url = "jdbc:mysql://localhost:3306/your_database?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
     private static final String username = "root";
-    private static final String password = "jio;90-=_";
+    private static final String password = "your_password";
     private static final String parentPackageName = "com.zzy";
     private static final String author = "zzy";
     private static final String outPath = projectPath + "/src/main/java/";
@@ -41,7 +41,7 @@ public class CodeGenerator {
                 .packageConfig(builder -> builder.parent(parentPackageName).pathInfo(Collections.singletonMap(OutputFile.xml, mapperPath)))
                 .strategyConfig(builder -> {
                     builder.addInclude(tableNames)
-                            .addTablePrefix(prefix) // 添加表名前缀
+                            .addTablePrefix(prefix) 
                             .serviceBuilder().formatServiceFileName("%sService").formatServiceImplFileName("%sServiceImpl")
                             .entityBuilder()
                             .enableChainModel()
