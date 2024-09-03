@@ -13,22 +13,21 @@ import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class CodeGenerator {
 
     // Database configuration variables
-    static String databaseHost = "localhost";
-    static String databasePort = "3306";
-    static String databaseName = "your_database";
-    static String databaseUser = "root";
-    static String databasePassword = "your_password";
+    private static final String DB_HOST = "114.55.146.84";
+    private static final String DB_PORT = "3306";
+    private static final String DB_NAME = "my_blog";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = "jio;90-=_";
 
     public static void main(String[] args) {
         new AutoGenerator()
                 .setGlobalConfig(globalConfig())
-                .setDataSource(dsc())
+                .setDataSource(dataSourceConfig())
                 .setPackageInfo(packageConfig())
                 .setStrategy(strategyConfig())
                 .execute();
@@ -47,13 +46,12 @@ public class CodeGenerator {
                 .setDateType(DateType.ONLY_DATE);
     }
 
-    private static DataSourceConfig dsc() {
-
+    private static DataSourceConfig dataSourceConfig() {
         return new DataSourceConfig()
-                .setUrl(String.format("jdbc:mysql://%s:%s/%s?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC", databaseHost, databasePort, databaseName))
+                .setUrl(String.format("jdbc:mysql://%s:%s/%s?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC", DB_HOST, DB_PORT, DB_NAME))
                 .setDriverName("com.mysql.cj.jdbc.Driver")
-                .setUsername(databaseUser)
-                .setPassword(databasePassword);
+                .setUsername(DB_USER)
+                .setPassword(DB_PASSWORD);
     }
 
     private static PackageConfig packageConfig() {
@@ -68,26 +66,47 @@ public class CodeGenerator {
     }
 
     private static StrategyConfig strategyConfig() {
-        return new StrategyConfig()
+        StrategyConfig strategy = new StrategyConfig()
                 .setNaming(NamingStrategy.underline_to_camel)
                 .setColumnNaming(NamingStrategy.underline_to_camel)
                 .setEntityLombokModel(true)
                 .setRestControllerStyle(true)
                 .setLogicDeleteFieldName("deleted")
                 .setVersionFieldName("version")
-                .setInclude(scanner("Table names (comma-separated)").split(","))
+                .setInclude(scannerTableNames().split(","))
                 .setTableFillList(Arrays.asList(
                         new TableFill("create_time", FieldFill.INSERT),
                         new TableFill("update_time", FieldFill.INSERT_UPDATE)
                 ));
+
+        promptToRemoveEntityPrefix(strategy);
+
+        return strategy;
     }
 
-    public static String scanner(String tip) {
+    // asking for removing the entity prefix
+    private static void promptToRemoveEntityPrefix(StrategyConfig strategy) {
+        System.out.println("Do you want to remove the entity prefix? (yes/no):");
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter " + tip + ":");
+        String answer = scanner.nextLine();
 
-        return Optional.ofNullable(scanner.next())
-                .filter(ipt -> !ipt.trim().isEmpty())
-                .orElseThrow(() -> new MybatisPlusException("Enter valid " + tip + "!"));
+        if ("yes".equalsIgnoreCase(answer)) {
+            System.out.println("Enter the prefix to remove:");
+            String prefix = scanner.nextLine();
+            strategy.setEntityTableFieldAnnotationEnable(true);
+            strategy.setTablePrefix(prefix);
+        }
+    }
+
+    // input table names
+    private static String scannerTableNames() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter " + "table names (comma-separated)" + ":");
+
+        String input = scanner.nextLine();
+        if (input == null || input.trim().isEmpty()) {
+            throw new MybatisPlusException("Enter valid " + "Table names (comma-separated)" + "!");
+        }
+        return input;
     }
 }
